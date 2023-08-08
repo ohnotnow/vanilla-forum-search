@@ -57,7 +57,7 @@ def search_comments(discussion_id, keywords):
         body = comment.get('body', '').lower() # Convert body to lowercase
         comment_url = comment.get('url') # Modify as needed to get the correct URL
         embedded_urls = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', body)
-        embedded_urls = [re.sub(r'(</a>|</blockquote>)$', '', url) for url in embedded_urls]
+        embedded_urls = [re.sub(r'</[^>]+>', '', url) for url in embedded_urls]
         embedded_urls = list(set(embedded_urls))
 
         matching_keywords = [word for word in keywords if word.lower() in body] # Convert each keyword to lowercase
