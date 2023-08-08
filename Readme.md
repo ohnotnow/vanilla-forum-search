@@ -39,7 +39,7 @@ python3 ./main.py word1 word2 word3
 
 The script will search for discussions from the past two weeks and comments containing the specified keywords, and then output the results as a JSON object.  If you want a more 'plain text' result you can use [jq](https://jqlang.github.io/jq/download/) :
 ```bash
-python3 main.py word1 word2 word3 | jq -r '.[] | .Thread, (.Matches[].url)'
+python3 main.py word1 word2 word3 | jq -r '.[] | .Thread, (.Matches[] | "Keywords: \(.keywords)", "Comment URL: \(.comment_url)", "Embedded URLs: \(.embedded_urls | join(", "))")'
 ```
 ## License
 

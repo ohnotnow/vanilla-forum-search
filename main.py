@@ -6,6 +6,7 @@ import sys
 import time
 import os
 import json
+import re
 
 base_url = os.getenv('VANILLA_URL', '')
 
@@ -53,11 +54,20 @@ def search_comments(discussion_id, keywords):
     comments = response.json()
     results = []
     for comment in comments:
-        body = comment.get('body', '').lower()
-        matching_keywords = [word for word in keywords if word.lower() in body]
+        body = comment.get('body', '').lower() # Convert body to lowercase
+        comment_url = comment.get('url') # Modify as needed to get the correct URL
+        embedded_urls = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', body)
+        embedded_urls = [re.sub(r'(</a>|</blockquote>)$', '', url) for url in embedded_urls]
+        embedded_urls = list(set(embedded_urls))
+
+        matching_keywords = [word for word in keywords if word.lower() in body] # Convert each keyword to lowercase
         if matching_keywords:
-            comment_url = comment.get('url') # Modify as needed to get the correct URL
-            results.append((matching_keywords, comment_url))
+            result = {
+                "keywords": matching_keywords,
+                "comment_url": comment_url,
+                "embedded_urls": embedded_urls
+            }
+            results.append(result)
 
     return results
 
@@ -83,7 +93,7 @@ if __name__ == "__main__":
         comment_results = search_comments(discussion_id, keywords)
         thread_results = {
             "Thread": discussion_title,
-            "Matches": [{"keywords": words, "url": url} for words, url in comment_results]
+            "Matches": comment_results
         }
         results.append(thread_results)
         # Pause for 1 seconds...
