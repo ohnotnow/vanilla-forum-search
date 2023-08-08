@@ -19,9 +19,9 @@ cd vanilla-forum-search
 2. Install the required dependencies:
 
 ```bash
-pip install requests
+pip3 install requests
 ```
-
+(Depending on your install it might just be `pip` - and indeed just `python` below)
 ## Configuration
 
 You need to set an environment variable with the base of your vanilla install.  Eg,
