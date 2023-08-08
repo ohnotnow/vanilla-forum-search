@@ -77,10 +77,7 @@ if __name__ == "__main__":
 
     results = []
 
-    print(f"Searching {len(discussions)} discussions")
-
     for discussion in discussions:
-        print(f"Searching {discussion.get('name')}")
         discussion_title = discussion.get('name')
         discussion_id = discussion.get('discussionID')
         comment_results = search_comments(discussion_id, keywords)
@@ -89,7 +86,7 @@ if __name__ == "__main__":
             "Matches": [{"keywords": words, "url": url} for words, url in comment_results]
         }
         results.append(thread_results)
-        print(f"Pausing for 5 seconds...")
-        time.sleep(5)
+        # Pause for 1 seconds...
+        time.sleep(1)
 
     print(json.dumps(results, indent=2))
