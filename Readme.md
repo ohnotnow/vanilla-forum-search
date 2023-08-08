@@ -12,7 +12,7 @@ This repository contains a Python script to search discussions and comments in a
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/vanilla-forum-search.git
+git clone https://github.com/ohnotnow/vanilla-forum-search.git
 cd vanilla-forum-search
 ```
 
